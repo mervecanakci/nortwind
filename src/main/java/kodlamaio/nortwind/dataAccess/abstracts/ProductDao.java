@@ -31,7 +31,7 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 	      List<Product> getByNameAndCategory(String productName, int categoryId);
 //select * from products where product_name=bisey andcategory_id=bisey
 
-	     
+	     //2
 	      
 //listelemeyi java tarafında 
 //interface interfaceyi extends eder

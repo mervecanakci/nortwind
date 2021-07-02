@@ -51,7 +51,7 @@ import lombok.NoArgsConstructor;
     private Category category;
     
 	public Product() {
-		
+		//deneme
 }
 
 	public Product(int id, String productName, double unitPrice, short unitsInStock, String quantityPerUnit,
