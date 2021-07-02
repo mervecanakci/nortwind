@@ -31,8 +31,8 @@ import lombok.NoArgsConstructor;
 //burada hangisnie karşılık
 	private int id;
 
-///  @Column(name="category_id")
-//private int categoryId;
+/* @Column(name="category_id")
+private int categoryId; */
 
     @Column(name="product_name")
 	private String productName;

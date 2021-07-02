@@ -47,15 +47,47 @@ public class ProductsController {
 	
 @GetMapping("/getByProductName")
 public DataResult<Product> getByProductName(@RequestParam String productName){
-	return this.productService.getByProductName(productName);
+return this.productService.getByProductName(productName);
 	
 }
 
- 
+@GetMapping("/getByProductNameAndCategoryId")
+public DataResult<Product>
+getByProductNameAndCategoryId(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId){
+	
+	System.out.println(productName);
+	System.out.println(categoryId);
+	
+	return this.productService.getByProductNameAndCategoryId(productName, categoryId);
+}
+@GetMapping("/getByProductNameContains")
+public  DataResult<List<Product>>
+getByProductNameContains(@RequestParam("productName") String productName){
+return this.productService.getByProductNameContains(productName);
+}
+@GetMapping("/getByProductNameStartsWith")
+public DataResult<List<Product>>
+getByProductNameStartsWith(@RequestParam("productName") String productName) {
+	return this.productService.getByProductNameStartsWith(productName);
+}
 
+@GetMapping("/getByProductNameOrCategoryId")
+public DataResult<List<Product>>
+getByProductNameOrCategoryId(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId) {
+	return this.productService.getByProductNameOrCategoryId(productName, categoryId);
+}
 
+@GetMapping("/getByCategoryIdIn")
+public DataResult<List<Product>>
+getByCategoryIdIn( @RequestParam("categories") List<Integer> categories) {
+	return this.productService.getByCategoryIdIn(categories);
+}
 
-
+@GetMapping("/getByNameAndCategory")
+public DataResult<List<Product>>
+getByNameAndCategory(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId) {
+	return this.productService.getByNameAndCategory(productName, categoryId);
+}
 //dış dünyayla bağlantı bu class
 		
 }

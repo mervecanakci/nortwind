@@ -1,6 +1,9 @@
 package kodlamaio.nortwind.business.concretes;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.nortwind.business.abstracts.ProductService;
@@ -51,14 +54,16 @@ public ProductManager(ProductDao productDao) {
 	@Override
 	public DataResult<Product> getByProductNameAndCategoryId(String productName, int categoryId) {
 		return new SuccessDataResult<Product>
-		( this.productDao.getByProductNameAndCategory(productName, categoryId),"Data listelendi");
+		( this.productDao.getByProductNameAndCategory_CategoryId(productName, categoryId),"Data listelendi");
 	}
+	//_ li ekledik çünkü category nin category id si yani neyi bulacapğını bilemedi
+	//ondan hata vermişti dikkat et 
 
 	@Override
 	public DataResult<List<Product>> getByProductNameOrCategoryId(String productName, int categoryId) {
 		//bir gün iş kodları olursa buaralara yazılacak
 		return new SuccessDataResult<List<Product>>
-		( this.productDao.getByProductNameOrCategory(productName, categoryId),"Data listelendi");
+		( this.productDao.getByProductNameOrCategory_CategoryId(productName, categoryId),"Data listelendi");
 		
 	}
 
@@ -86,13 +91,23 @@ public ProductManager(ProductDao productDao) {
 		( this.productDao.getByNameAndCategory(productName, categoryId),"Data listelendi");
 	}
 
+	
 	@Override
 	public DataResult<List<Product>> getByProductNameAndCategory(String productName, int categoryId) {
 	
 		return null;
 	}
+
+	@Override
+	public DataResult<List<Product>> getAll(int pageNo, int pageSize) {
+		
+	Pageable pageable=PageRequest.of(pageNo, pageSize);
 	
- //01.51.29
+		return new  SuccessDataResult<List<Product>>
+		( this.productDao.findAll(pageable).getContent());
+	}
+	
+
 
 	
 	

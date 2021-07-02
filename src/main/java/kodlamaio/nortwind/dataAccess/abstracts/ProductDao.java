@@ -10,11 +10,11 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 	Product getByProductName(String productName);
 // getby i görünce tabloya bakıyor ilgili kolona göre ver koşulu yapıyor
 	
-	Product getByProductNameAndCategory(String productName, int categoryId);
+	Product getByProductNameAndCategory_CategoryId(String productName, int categoryId);
 //sql kodu:
 //select * from products where product_name = abc and category_id=1
 	
-	    List<Product> getByProductNameOrCategory(String productName, int categoryId);
+	    List<Product> getByProductNameOrCategory_CategoryId(String productName, int categoryId);
 //veya
 	 
 	     List<Product> getByCategoryIn(List<Integer> categories);
@@ -31,14 +31,14 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 	      List<Product> getByNameAndCategory(String productName, int categoryId);
 //select * from products where product_name=bisey andcategory_id=bisey
 
-	     //2
+	     
 	      
 //listelemeyi java tarafında 
 //interface interfaceyi extends eder
 //iki kere import ettikss
 //jpa hocada açılıyor
 			
-			//2.00.36
+	
 			
 			
 
