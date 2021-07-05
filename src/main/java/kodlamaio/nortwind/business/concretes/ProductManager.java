@@ -4,20 +4,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import kodlamaio.nortwind.business.abstracts.ProductService;
+import kodlamaio.nortwind.business.abstracts.IProductService;
 import kodlamaio.nortwind.core.utilities.results.DataResult;
 import kodlamaio.nortwind.core.utilities.results.Result;
 import kodlamaio.nortwind.core.utilities.results.SuccessDataResult;
 import kodlamaio.nortwind.core.utilities.results.SuccessResult;
 import kodlamaio.nortwind.dataAccess.abstracts.ProductDao;
 import kodlamaio.nortwind.etities.concretes.Product;
+import kodlamaio.nortwind.etities.dtos.ProductWithCategoryDto;
 
 @Service
 //projede servis görevi görecek,
 
-public class ProductManager implements ProductService {
+public class ProductManager implements IProductService {
 	
 	//imlemente et yani sen bir product servis referansı tutuyorsun
 	
@@ -101,10 +103,27 @@ public ProductManager(ProductDao productDao) {
 	@Override
 	public DataResult<List<Product>> getAll(int pageNo, int pageSize) {
 		
-	Pageable pageable=PageRequest.of(pageNo, pageSize);
+	Pageable pageable=PageRequest.of(pageNo-1, pageSize);
+	//-1 demeliyiz çünkü 0 dan başladığı için istediğimizden bir sonrakini getirir
 	
 		return new  SuccessDataResult<List<Product>>
-		( this.productDao.findAll(pageable).getContent());
+		( this.productDao.findAll(pageable).getContent(),"başarılı");
+	}
+
+	@Override
+	public DataResult<List<Product>> getAllSorted() {
+		Sort sort=Sort.by(Sort.Direction.DESC, "productName");
+				//asc azalan
+				//desc yükselen sıralama
+				// sorted de sıraladık alfabetik olarak
+		return new  SuccessDataResult<List<Product>>
+		( this.productDao.findAll(sort),"başarılı");
+	}
+
+	@Override
+	public DataResult<List<ProductWithCategoryDto>> getProductWithCategoryDetails() {
+		return new SuccessDataResult<List<ProductWithCategoryDto>>
+		( this.productDao.getProductWithCategoryDetails(),"Data listelendi");
 	}
 	
 

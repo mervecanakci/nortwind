@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import kodlamaio.nortwind.etities.concretes.Product;
+import kodlamaio.nortwind.etities.dtos.ProductWithCategoryDto;
 public interface ProductDao extends JpaRepository<Product, Integer> {
 	
 	Product getByProductName(String productName);
@@ -24,14 +25,21 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
 	      List<Product> getByProductNameContains(String productName);
 //ürün ismi içeriyorsa 	
 	
-	   List<Product> getByProductNameStartsWith(String productName);
+	      List<Product> getByProductNameStartsWith(String productName);
 //ürün ismi şununla başlayan ya da şununla biten
 	      
 @Query("From Product where productName=:productName and category.categoryId=:categoryId")
 	      List<Product> getByNameAndCategory(String productName, int categoryId);
 //select * from products where product_name=bisey andcategory_id=bisey
 
+@Query("Select new kodlamaio.nortwind.etities.dtos.ProductWithCategoryDto(p.id, p.productName, c.categoryName) From Category c Inner Join c.products p")
+//buradan bazı alanları productwithcategory e atamak istiyoruz yani fromdan sonrakileir oraya
+ //hepsini seçeceksen fromla başlayabilirsin
+ //fakat özellikle bunu çekmek istiyorum dediğinde select new........from u kullanmalısın
+ //select p.productId, p.productName, c.categoryName from Category c inner join Product p on c.categoryId=p.categoryId
+	     List<ProductWithCategoryDto> getProductWithCategoryDetails();
 	     
+	  
 	      
 //listelemeyi java tarafında 
 //interface interfaceyi extends eder

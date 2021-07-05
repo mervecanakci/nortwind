@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import kodlamaio.nortwind.business.abstracts.ProductService;
+import kodlamaio.nortwind.business.abstracts.IProductService;
 import kodlamaio.nortwind.core.utilities.results.DataResult;
 import kodlamaio.nortwind.core.utilities.results.Result;
 import kodlamaio.nortwind.etities.concretes.Product;
+import kodlamaio.nortwind.etities.dtos.ProductWithCategoryDto;
 
 @RestController
 //java olmyanalar da tanısın
@@ -23,73 +24,89 @@ import kodlamaio.nortwind.etities.concretes.Product;
 //buradan böyle istek gelirse bu controller karar verecek
 
 public class ProductsController {
-
-	private ProductService productService;
+private IProductService productService;
 	
 @Autowired //bak buna güzel bir şey
-	public ProductsController(ProductService productService) {
+public ProductsController(IProductService productService) {
 	super();
 	this.productService = productService;
 //bura buisnnes e erişiyor
-	}
+}
 
 @GetMapping("/getall")
 //bu istek public in içini çalıştırır
 	
-	 public DataResult<List<Product>>getAll(){
-	 return this.productService.getAll();
-		
+public DataResult<List<Product>>
+   getAll(){
+   return this.productService.getAll();		
 }
+
 @PostMapping("/add")
-	 public Result add(@RequestBody Product product) {
-	 return this.productService.add(product);
+public Result add(@RequestBody Product product) {
+   return this.productService.add(product);
 }
-	
+
 @GetMapping("/getByProductName")
-public DataResult<Product> getByProductName(@RequestParam String productName){
-return this.productService.getByProductName(productName);
-	
+public DataResult<Product> 
+    getByProductName(@RequestParam String productName){
+    return this.productService.getByProductName(productName);	
 }
 
 @GetMapping("/getByProductNameAndCategoryId")
 public DataResult<Product>
-getByProductNameAndCategoryId(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId){
-	
-	System.out.println(productName);
-	System.out.println(categoryId);
-	
+    getByProductNameAndCategoryId(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId){
+	        System.out.println(productName);
+	        System.out.println(categoryId);	
 	return this.productService.getByProductNameAndCategoryId(productName, categoryId);
 }
+
 @GetMapping("/getByProductNameContains")
 public  DataResult<List<Product>>
-getByProductNameContains(@RequestParam("productName") String productName){
-return this.productService.getByProductNameContains(productName);
+   getByProductNameContains(@RequestParam("productName") String productName){
+   return this.productService.getByProductNameContains(productName);
 }
+
 @GetMapping("/getByProductNameStartsWith")
 public DataResult<List<Product>>
-getByProductNameStartsWith(@RequestParam("productName") String productName) {
+    getByProductNameStartsWith(@RequestParam("productName") String productName) {
 	return this.productService.getByProductNameStartsWith(productName);
 }
 
 @GetMapping("/getByProductNameOrCategoryId")
 public DataResult<List<Product>>
-getByProductNameOrCategoryId(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId) {
+    getByProductNameOrCategoryId(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId) {
 	return this.productService.getByProductNameOrCategoryId(productName, categoryId);
 }
 
 @GetMapping("/getByCategoryIdIn")
 public DataResult<List<Product>>
-getByCategoryIdIn( @RequestParam("categories") List<Integer> categories) {
+    getByCategoryIdIn( @RequestParam("categories") List<Integer> categories) {
 	return this.productService.getByCategoryIdIn(categories);
 }
 
 @GetMapping("/getByNameAndCategory")
 public DataResult<List<Product>>
-getByNameAndCategory(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId) {
+    getByNameAndCategory(@RequestParam("productName") String productName, @RequestParam("categoryId") int categoryId) {
 	return this.productService.getByNameAndCategory(productName, categoryId);
 }
+@GetMapping("/getAllByPage")
+DataResult<List<Product>>
+    getAll(@RequestParam("pageNo")int pageNo, @RequestParam("pageSize") int pageSize){
+    return this.productService.getAll(pageNo, pageSize);
+} 
+@GetMapping("/getAllDesc")
+public DataResult<List<Product>> 
+     getAllSorted() {
+	 return this.productService.getAllSorted();
+}
+@GetMapping("/getProductWithCategoryDetails")
+public DataResult<List<ProductWithCategoryDto>> 
+    getProductWithCategoryDetails(){
+   return this.productService.getProductWithCategoryDetails();
+}
+
+
 //dış dünyayla bağlantı bu class
-		
 }
 
 
